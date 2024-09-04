@@ -5,12 +5,14 @@ import { useData } from '@/app/context/DataProvider';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import ConfirmModal from '../ConfirmModal';
 import UpdateProduct from './UpdateProduct';
+import { useDispatch } from 'react-redux';
+import { deleteProduct } from '@/app/features/products/productSlice';
 
 export default function Product({ product }: { product: ProductsD }) {
     const { id, title, images, price, rating } = product;
-    const { productList, setProductList } = useData();
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const dispatch = useDispatch();
 
     const openConfirmModal = () => setIsConfirmModalOpen(true);
     const closeConfirmModal = () => setIsConfirmModalOpen(false);
@@ -18,15 +20,14 @@ export default function Product({ product }: { product: ProductsD }) {
     const openUpdateModal = () => setIsUpdateModalOpen(true);
     const closeUpdateModal = () => setIsUpdateModalOpen(false);
 
-    const deleteProduct = async (id: number) => {
+    const removeProduct = async (id: number) => {
         try {
             const res = await fetch(`https://dummyjson.com/products/${id}`, {
                 method: 'DELETE'
             });
             const product = await res.json();
-            let filterProducts = productList.filter((i: any) => i.id !== product.id);
-            setProductList(filterProducts);
-            closeConfirmModal(); // Close confirm modal after deletion
+            dispatch(deleteProduct(product));
+            closeConfirmModal();
         } catch (error) {
             console.error(error);
         }
@@ -53,7 +54,7 @@ export default function Product({ product }: { product: ProductsD }) {
                     </span>
                 </td>
             </tr>
-            {isConfirmModalOpen && <ConfirmModal onClose={closeConfirmModal} onConfirm={() => deleteProduct(id)} />}
+            {isConfirmModalOpen && <ConfirmModal onClose={closeConfirmModal} onConfirm={() => removeProduct(id)} />}
             {isUpdateModalOpen && <UpdateProduct onClose={closeUpdateModal} initialDetails={product} />}
         </>
     );

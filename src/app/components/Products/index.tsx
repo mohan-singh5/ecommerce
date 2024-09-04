@@ -13,7 +13,6 @@ import { RootState } from '@/app/features/store';
 const couponCode = "COUP1234"
 
 export default function Products() {
-    // const { productList, setProductList } = useData();
     const [loading, setLoading] = useState(true);
     const [totalPrice, setTotalPrice] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,18 +23,11 @@ export default function Products() {
     const productList = useSelector((state: RootState) => state.products.products);
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     console.log(productList.products, "product kkkkkk")
-    // }, [productList])
-
-
     const getAllProducts = async () => {
         try {
             setLoading(true);
             const res = await fetch('https://dummyjson.com/products');
             const products = await res.json();
-            // console.log(products, "kkkkkk=====");
-            // setProductList(products.products);
             dispatch(setproducts(products));
             setLoading(false);
         } catch (error) {

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useData } from '../../context/DataProvider';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '@/app/features/products/productSlice';
 
 interface ConfirmModalProps {
     onClose: () => void;
@@ -17,7 +19,7 @@ export default function AddProduct({ onClose }: ConfirmModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-    const { setProductList } = useData();
+    const dispatch = useDispatch();
 
     // Function to handle click outside the modal
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,7 +49,8 @@ export default function AddProduct({ onClose }: ConfirmModalProps) {
             });
             const result = await response.json();
             console.log(result);
-            setProductList(prevList => [result, ...prevList])
+            // setProductList(prevList => [result, ...prevList])
+            dispatch(addProduct(result));
             setIsLoading(false);
             onClose(); // Close the modal after submission
         } catch (error) {

@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useData } from '../../context/DataProvider';
 import { ProductsD } from '../../../../types';
+import { useDispatch } from 'react-redux';
+import { updateProduct } from '@/app/features/products/productSlice';
 
 interface ConfirmModalProps {
     onClose: () => void;
@@ -25,7 +27,8 @@ export default function UpdateProduct({ onClose, initialDetails }: ConfirmModalP
             rating: initialDetails.rating,
         }
     });
-    const { setProductList } = useData();
+    // const { setProductList } = useData();
+    const dispatch = useDispatch();
 
     const handleClickOutside = (event: MouseEvent) => {
         if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -49,7 +52,9 @@ export default function UpdateProduct({ onClose, initialDetails }: ConfirmModalP
                 body: JSON.stringify(data),
             });
             const result = await response.json();
-            setProductList(prevList => prevList.map(product => product.id === result.id ? result : product));
+            console.log(result, "result");
+            dispatch(updateProduct(result));
+            // setProductList(prevList => prevList.map(product => product.id === result.id ? result : product));
             setIsLoading(false);
             onClose();
         } catch (error) {
