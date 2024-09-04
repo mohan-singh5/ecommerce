@@ -6,11 +6,14 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Product from './Product';
 import SortProducts from './SortProducts';
 import AddProduct from './AddProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { setproducts } from '@/app/features/products/productSlice';
+import { RootState } from '@/app/features/store';
 
 const couponCode = "COUP1234"
 
 export default function Products() {
-    const { productList, setProductList } = useData();
+    // const { productList, setProductList } = useData();
     const [loading, setLoading] = useState(true);
     const [totalPrice, setTotalPrice] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,14 +21,22 @@ export default function Products() {
     const [couponApplied, setCouponApplied] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    const productList = useSelector((state: RootState) => state.products.products);
+    const dispatch = useDispatch();
 
-    const getAllProducst = async () => {
+    // useEffect(() => {
+    //     console.log(productList.products, "product kkkkkk")
+    // }, [productList])
+
+
+    const getAllProducts = async () => {
         try {
             setLoading(true);
             const res = await fetch('https://dummyjson.com/products');
             const products = await res.json();
-            console.log(products);
-            setProductList(products.products);
+            // console.log(products, "kkkkkk=====");
+            // setProductList(products.products);
+            dispatch(setproducts(products));
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -34,16 +45,16 @@ export default function Products() {
     }
 
     useEffect(() => {
-        getAllProducst();
+        getAllProducts();
     }, [])
 
-    useEffect(() => {
-        let total = 0;
-        productList.forEach((i) => {
-            total += Number(i.price);
-        })
-        setTotalPrice(Number(total.toFixed(0)))
-    }, [productList]);
+    // useEffect(() => {
+    //     let total = 0;
+    //     productList.forEach((i) => {
+    //         total += Number(i.price);
+    //     })
+    //     setTotalPrice(Number(total.toFixed(0)))
+    // }, [productList]);
 
     const handleCouponApply = () => {
         if (!coupon) {
@@ -95,7 +106,7 @@ export default function Products() {
                                         <th>Operation</th>
                                     </tr>
                                     {
-                                        productList.map((product) => {
+                                        productList.products.map((product) => {
                                             return (
                                                 <Product key={product.id} product={product} />
                                             )
