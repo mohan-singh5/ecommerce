@@ -1,14 +1,13 @@
 "use client"
 
-import { useData } from '@/app/context/DataProvider';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Product from './Product';
 import SortProducts from './SortProducts';
 import AddProduct from './AddProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { setproducts } from '@/app/features/products/productSlice';
-import { RootState } from '@/app/features/store';
+import { RootState } from '@/lib/store';
+import { setproducts } from '@/lib/features/products/productSlice';
 
 const couponCode = "COUP1234"
 
@@ -40,13 +39,13 @@ export default function Products() {
         getAllProducts();
     }, [])
 
-    // useEffect(() => {
-    //     let total = 0;
-    //     productList.forEach((i) => {
-    //         total += Number(i.price);
-    //     })
-    //     setTotalPrice(Number(total.toFixed(0)))
-    // }, [productList]);
+    useEffect(() => {
+        let total = 0;
+        productList.products?.forEach((i) => {
+            total += Number(i.price);
+        })
+        setTotalPrice(Number(total.toFixed(0)))
+    }, [productList]);
 
     const handleCouponApply = () => {
         if (!coupon) {
@@ -61,7 +60,7 @@ export default function Products() {
         let discount = 0;
 
         if (coupon.trim() === couponCode) {
-            discount = 0.50; // 50%
+            discount = 0.20; // 20%
             const discountedAmount = totalPrice * (1 - discount);
             setTotalPrice(Number(discountedAmount.toFixed(0)));
             setCouponApplied(true);
@@ -98,7 +97,7 @@ export default function Products() {
                                         <th>Operation</th>
                                     </tr>
                                     {
-                                        productList.products.map((product) => {
+                                        productList?.products.length > 0 && productList.products.map((product) => {
                                             return (
                                                 <Product key={product.id} product={product} />
                                             )

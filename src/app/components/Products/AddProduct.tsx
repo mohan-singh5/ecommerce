@@ -1,9 +1,8 @@
+import { addProduct } from '@/lib/features/products/productSlice';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useData } from '../../context/DataProvider';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '@/app/features/products/productSlice';
 
 interface ConfirmModalProps {
     onClose: () => void;

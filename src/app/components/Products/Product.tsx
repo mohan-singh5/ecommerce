@@ -6,7 +6,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import ConfirmModal from '../ConfirmModal';
 import UpdateProduct from './UpdateProduct';
 import { useDispatch } from 'react-redux';
-import { deleteProduct } from '@/app/features/products/productSlice';
+import { deleteProduct } from '@/lib/features/products/productSlice';
 
 export default function Product({ product }: { product: ProductsD }) {
     const { id, title, images, price, rating } = product;

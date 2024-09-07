@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useData } from '../../context/DataProvider';
 import { ProductsD } from '../../../../types';
 import { useDispatch } from 'react-redux';
-import { updateProduct } from '@/app/features/products/productSlice';
+import { updateProduct } from '@/lib/features/products/productSlice';
 
 interface ConfirmModalProps {
     onClose: () => void;
@@ -27,7 +26,6 @@ export default function UpdateProduct({ onClose, initialDetails }: ConfirmModalP
             rating: initialDetails.rating,
         }
     });
-    // const { setProductList } = useData();
     const dispatch = useDispatch();
 
     const handleClickOutside = (event: MouseEvent) => {
