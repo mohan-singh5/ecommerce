@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { ProductsD } from "../../../../types";
+import { ProductResD } from "./productTypes";
+
 
 export interface ProductState {
-    products: ProductsD[],
-    total: number;
-    skip: number;
-    limit: number;
+    products: ProductResD;
+    totalPrice: number;
 }
 
-const initialState = {
-    products: {} as ProductState
+const initialState: ProductState = {
+    products: {} as ProductResD,
+    totalPrice: 0
 }
 
 const productReducers = createSlice({

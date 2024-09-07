@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { ProductsD } from '../../../../types';
 import { useDispatch } from 'react-redux';
 import { updateProduct } from '@/lib/features/products/productSlice';
+import { ProductsListD } from '@/lib/features/products/productTypes';
 
 interface ConfirmModalProps {
     onClose: () => void;
-    initialDetails: ProductsD
+    initialDetails: ProductsListD
 }
 
 interface FormData {

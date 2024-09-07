@@ -1,17 +1,17 @@
 "use client";
 
+import { ProductsListD } from '@/lib/features/products/productTypes';
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from 'react'
-import { ProductsD } from '../../../types';
 
 type DataContext = {
-    productList: ProductsD[];
-    setProductList: Dispatch<SetStateAction<ProductsD[]>>;
+    productList: ProductsListD[];
+    setProductList: Dispatch<SetStateAction<ProductsListD[]>>;
 }
 
 export const MyContext = createContext({} as DataContext)
 
 export default function DataProvider({ children }: { children: React.ReactNode }) {
-    const [productList, setProductList] = useState<ProductsD[]>([]);
+    const [productList, setProductList] = useState<ProductsListD[]>([]);
 
     return (
         <MyContext.Provider value={{

@@ -5,8 +5,8 @@ import { setCookie } from 'cookies-next';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { AiOutlineLoading3Quarters, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { LoginApiResponseD } from '../../../types';
 import { useRouter } from 'next/navigation';
+import { LoginApiResponseD } from '@/types';
 
 
 // Define TypeScript types for form data

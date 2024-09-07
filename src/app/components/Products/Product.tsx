@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { ProductsD } from '../../../../types';
 import Image from 'next/image';
-import { useData } from '@/app/context/DataProvider';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import ConfirmModal from '../ConfirmModal';
 import UpdateProduct from './UpdateProduct';
 import { useDispatch } from 'react-redux';
 import { deleteProduct } from '@/lib/features/products/productSlice';
+import { ProductsListD } from '@/lib/features/products/productTypes';
 
-export default function Product({ product }: { product: ProductsD }) {
+export default function Product({ product }: { product: ProductsListD }) {
     const { id, title, images, price, rating } = product;
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);

@@ -1,4 +1,11 @@
-export type ProductsD = {
+export type ProductResD = {
+    products: ProductsListD[],
+    total: number;
+    skip: number;
+    limit: number;
+}
+
+export type ProductsListD = {
     id: number;
     title: string;
     description: string;
@@ -42,16 +49,4 @@ export type Review = {
     date: Date;
     reviewerName: string;
     reviewerEmail: string;
-}
-
-export interface LoginApiResponseD {
-    email: string;
-    firstName: string;
-    gender: string;
-    id: number;
-    image: string;
-    lastName: string;
-    refreshToken: string;
-    token: string;
-    username: string;
 }
