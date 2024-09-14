@@ -7,9 +7,9 @@ import SortProducts from './SortProducts';
 import AddProduct from './AddProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
-import { setproducts } from '@/lib/features/products/productSlice';
+import { applyCoupon, setproducts } from '@/lib/features/products/productSlice';
 
-const couponCode = "COUP1234"
+const couponCode = "COUP1234";
 
 export default function Products() {
     const [loading, setLoading] = useState(true);
@@ -48,26 +48,7 @@ export default function Products() {
     }, [productList]);
 
     const handleCouponApply = () => {
-        if (!coupon) {
-            alert("Please enter coupon code");
-            return;
-        }
-        if (couponApplied) {
-            alert("Coupon code is already applied");
-            return;
-        }
-
-        let discount = 0;
-
-        if (coupon.trim() === couponCode) {
-            discount = 0.20; // 20%
-            const discountedAmount = totalPrice * (1 - discount);
-            setTotalPrice(Number(discountedAmount.toFixed(0)));
-            setCouponApplied(true);
-            setCoupon('');
-        } else {
-            alert("Please enter correct coupon code")
-        }
+        dispatch(applyCoupon(coupon));
     }
 
     return (
