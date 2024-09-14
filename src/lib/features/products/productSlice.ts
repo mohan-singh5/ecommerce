@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { ProductResD } from "./productTypes";
+import { fetchProducts } from "./productApi";
 
 const couponCode = "COUP1234";
 export interface ProductState {
     products: ProductResD;
+    loading: boolean;
     totalPrice: number;
     couponApplied: boolean;
 }
 
 const initialState: ProductState = {
     products: {} as ProductResD,
+    loading: false,
     totalPrice: 0,
     couponApplied: false
 }
@@ -51,6 +54,15 @@ const productReducers = createSlice({
                 alert("Please enter the correct coupon code");
             }
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchProducts.pending, (state) => {
+            state.loading = true
+        })
+            .addCase(fetchProducts.fulfilled, (state, action) => {
+                state.loading = false;
+                state.products = action.payload;
+            })
     }
 })
 

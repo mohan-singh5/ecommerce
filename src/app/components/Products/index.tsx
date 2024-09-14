@@ -6,46 +6,48 @@ import Product from './Product';
 import SortProducts from './SortProducts';
 import AddProduct from './AddProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
+import { AppDispatch, RootState } from '@/lib/store';
 import { applyCoupon, setproducts } from '@/lib/features/products/productSlice';
+import { fetchProducts } from '@/lib/features/products/productApi';
 
 const couponCode = "COUP1234";
 
 export default function Products() {
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [totalPrice, setTotalPrice] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [coupon, setCoupon] = useState('');
     const [couponApplied, setCouponApplied] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    const productList = useSelector((state: RootState) => state.products.products);
-    const dispatch = useDispatch();
+    const { products, loading } = useSelector((state: RootState) => state.products);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const getAllProducts = async () => {
-        try {
-            setLoading(true);
-            const res = await fetch('https://dummyjson.com/products');
-            const products = await res.json();
-            dispatch(setproducts(products));
-            setLoading(false);
-        } catch (error) {
-            console.error(error);
-            setLoading(false);
-        }
-    }
+    // const getAllProducts = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const res = await fetch('https://dummyjson.com/products');
+    //         const products = await res.json();
+    //         // dispatch(setproducts(products));
+    //         setLoading(false);
+    //     } catch (error) {
+    //         console.error(error);
+    //         setLoading(false);
+    //     }
+    // }
 
     useEffect(() => {
-        getAllProducts();
-    }, [])
+        // getAllProducts();
+        dispatch(fetchProducts());
+    }, [dispatch])
 
     useEffect(() => {
         let total = 0;
-        productList.products?.forEach((i) => {
+        products.products?.forEach((i) => {
             total += Number(i.price);
         })
         setTotalPrice(Number(total.toFixed(0)))
-    }, [productList]);
+    }, [products]);
 
     const handleCouponApply = () => {
         dispatch(applyCoupon(coupon));
@@ -78,7 +80,7 @@ export default function Products() {
                                         <th>Operation</th>
                                     </tr>
                                     {
-                                        productList?.products.length > 0 && productList.products.map((product) => {
+                                        products?.products?.length > 0 && products.products.map((product) => {
                                             return (
                                                 <Product key={product.id} product={product} />
                                             )
